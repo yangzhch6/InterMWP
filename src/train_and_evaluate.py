@@ -416,23 +416,6 @@ def predict_line(line):
             ans.append(idx)
     return ans
 
-def recall_threshold(predict, inter_prefix, t):
-    predict = torch.tensor(predict)
-    predict = torch.where(predict>t, torch.tensor(1), torch.tensor(0))
-    predict = predict.tolist()
-    predict = [predict_line(line) for line in predict]
-    predict_length = sum([len(line) for line in predict])
-    predict_length=  max(predict_length, 1e-9)
-    acc_all = 0
-    logic_count_all = 0
-    for p_line, prefix in zip(predict, inter_prefix):
-        acc, logic_count = recall_topk_line(p_line, prefix)
-        acc_all += acc
-        logic_count_all += logic_count
-    global_recall = acc_all/logic_count_all
-    precision = acc_all / predict_length
-    return global_recall, precision, predict
-
 def multilabel_categorical_crossentropy(logic_score, inter_multi_label):
     logic_score = (1- 2*inter_multi_label) * logic_score
     logic_score_neg = logic_score - inter_multi_label * 1e12
