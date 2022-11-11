@@ -9,7 +9,11 @@ torch version
 conda install pytorch==1.10.2 torchvision==0.11.3 torchaudio==0.10.2 cudatoolkit=11.3.1 -c pytorch -c conda-forge
 ```
 
-torch==3.4.0
+transformers
+```
+pip install transformers==3.4.0
+```
+
 ## 1.1 Prepare data
 first put InterMWP dataset in 'data/'
 
