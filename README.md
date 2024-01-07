@@ -36,13 +36,13 @@ CUDA_VISIBLE_DEVICES=0 python run_bert2tree.py --save_path model/finetune/bert2t
 ## 2.1 train retriever
 SoftmaxBCELoss:   
 ```
-CUDA_VISIBLE_DEVICES=0 python run_retriever_attn.py --save_path model/retriever/attn_ep[20] --n_epochs 20
+CUDA_VISIBLE_DEVICES=0 python run_retriever_attn.py --save_path model/retriever/attn_ep[30] --n_epochs 30
 ```
 
 ## 2.2 prompt-enhanced learning for MWP
 top K prompts learning:   
 ```
-CUDA_VISIBLE_DEVICES=2 python run_bert2tree.py --save_path model/finetune/bert2tree_softmacbceloss_ep[20]_top3 --save --logic_path data/logic.json --prompt_text_path model/retriever/SoftmaxBCELoss_ep\[20\]/ --retriever_postfix 3
+CUDA_VISIBLE_DEVICES=2 python run_bert2tree.py --save_path model/finetune/bert2tree_softmacbceloss_ep[20]_top3 --save --logic_path data/logic.json --prompt_text_path model/retriever/attn_ep[30] --retriever_postfix 3
 ```
 
 Then generate logic generator training data:   
@@ -65,20 +65,3 @@ InterSolver-[logic generator]
 ```
 CUDA_VISIBLE_DEVICES=5 python run_logic_generator.py --data_path data/bert2tree_bce_ep20_top3/ --save_path model/logic_generator/bert2tree_bce_ep20_top3/ --save --test_while_valid
 ``` 
-
-# 3. prompt learning on Math23K:
-## 3.1 Train GTS(Bert) Baseline on Math23K
-```
-CUDA_VISIBLE_DEVICES=2 python run_bert2tree_math23k.py --save_path model/finetune_math23k/bert2tree --save
-```
-**Note: We have already proveid the trained retriever's generated promots in Math23K, you can skip to 3.3**
-
-## 3.2 generate Math23K prompts
-```
-CUDA_VISIBLE_DEVICES=1 python retriever_attn_output.py --save_path model/retriever/SoftmaxBCELoss_ep\[20\] --loss_function SoftmaxBCELoss
-```
-
-## 3.3 prompt-enhanced learning in Math23K
-```
-CUDA_VISIBLE_DEVICES=2 python run_bert2tree_math23k.py --save_path model/finetune_math23k/bert2tree_softmacbceloss_ep[20]_top3 --save --logic_path data/logic.json --retriever_postfix 3
-```
