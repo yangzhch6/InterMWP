@@ -42,7 +42,7 @@ CUDA_VISIBLE_DEVICES=0 python run_retriever_attn.py --save_path model/retriever/
 ## 2.2 prompt-enhanced learning for MWP
 top K prompts learning:   
 ```
-CUDA_VISIBLE_DEVICES=2 python run_bert2tree.py --save_path model/finetune/bert2tree_softmacbceloss_ep[20]_top3 --save --logic_path data/logic.json --prompt_text_path model/retriever/attn_ep[30] --retriever_postfix 3
+CUDA_VISIBLE_DEVICES=2 python run_bert2tree.py --save_path model/finetune/bert2tree_top3 --save --logic_path data/logic.json --prompt_text_path model/retriever/attn_ep[30] --retriever_postfix 3
 ```
 
 Then generate logic generator training data:   
@@ -52,7 +52,7 @@ Then generate logic generator training data:
     ```
 - InterSolver 
     ```
-    CUDA_VISIBLE_DEVICES=5 python evaluate_bert2tree.py --save_path model/finetune/bert2tree_softmacbceloss_ep\[20\]_top3 --logic_path data/logic.json --prompt_text_path model/retriever/SoftmaxBCELoss_ep\[20\] --retriever_postfix 3 --save_data_path data/bert2tree_bce_ep20_top3 --save
+    CUDA_VISIBLE_DEVICES=5 python evaluate_bert2tree.py --save_path model/finetune/bert2tree_top3 --logic_path data/logic.json --prompt_text_path model/retriever/attn_ep[30] --retriever_postfix 3 --save_data_path data/bert2tree_bce_ep20_top3 --save
     ```
 
 ## 2.3 train logic generator
